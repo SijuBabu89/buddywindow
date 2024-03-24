@@ -17,8 +17,8 @@ import com.buddywindow.auth.util.JWTUtil;
 @RequestMapping("/api/auth")
 public class AuthResource implements IAuthResource{
 
-	@Autowired
-	private JWTUtil jwtUtil;
+//	@Autowired
+//	private JWTUtil jwtUtil;
 	@Autowired
 	private IUserService userService;
 	@Autowired
