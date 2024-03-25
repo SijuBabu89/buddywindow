@@ -73,4 +73,12 @@ public class TokenGeneratorService {
 		return claims;
 	}
 
+	public int getAccessTokenExpirationMs() {
+		return accessTokenExpirationMs;
+	}
+
+	public int getRefershTokenExpirationMs() {
+		return refershTokenExpirationMs;
+	}
+
 }

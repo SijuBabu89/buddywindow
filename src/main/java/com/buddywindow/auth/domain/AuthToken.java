@@ -1,4 +1,4 @@
-package com.buddywindow.auth.entity.domain;
+package com.buddywindow.auth.domain;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +24,32 @@ public class AuthToken {
 		this.refreshTokenExpiryInSec = refreshTokenExpiryInSec;
 		this.createdAt = createdAt;
 	}
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public String getRefreshToken() {
+		return refreshToken;
+	}
+
+	public TokenType getTokenType() {
+		return tokenType;
+	}
+
+	public int getAccessTokenExpiryInSec() {
+		return accessTokenExpiryInSec;
+	}
+
+	public int getRefreshTokenExpiryInSec() {
+		return refreshTokenExpiryInSec;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+	
+	
     
     
 }

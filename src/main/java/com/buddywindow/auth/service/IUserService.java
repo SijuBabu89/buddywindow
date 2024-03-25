@@ -6,4 +6,5 @@ public interface IUserService {
 
 	public User getUserById(Long id);
 	public User createUser(User user);
+	public User getUserByUsernameAndPassword(String username, String password);
 }

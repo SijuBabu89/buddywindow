@@ -12,11 +12,11 @@ import com.buddywindow.auth.repository.IUserRepository;
 public class UserService implements IUserService{
 
 	@Autowired
-	private IUserRepository repository;
+	private IUserRepository userRepository;
 	
 	@Override
 	public User getUserById(Long id) {
-		Optional<User> user= repository.findById("");
+		Optional<User> user= userRepository.findById("");
 		if(user.isPresent()) {
 			return user.get();
 		} else {
@@ -26,8 +26,17 @@ public class UserService implements IUserService{
 	
 	@Override
 	public User createUser(User user) {
-		user = repository.save(user);
+		user = userRepository.save(user);
 		return user;
+	}
+
+	@Override
+	public User getUserByUsernameAndPassword(String username, String password) {
+		Optional<User> userOptional = userRepository.getUserByUsernameAndPassword(username, password);
+		if(userOptional.isEmpty()) {
+			throw new RuntimeException("User not found");
+		}
+		return userOptional.get();
 	}
 
 }
