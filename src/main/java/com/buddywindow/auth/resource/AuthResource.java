@@ -2,9 +2,13 @@ package com.buddywindow.auth.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.buddywindow.auth.domain.AuthToken;
+import com.buddywindow.auth.dto.AuthTokenDTO;
+import com.buddywindow.auth.dto.LoginRequestDTO;
 import com.buddywindow.auth.entity.Address;
 import com.buddywindow.auth.entity.Contact;
 import com.buddywindow.auth.entity.Phone;
@@ -12,6 +16,7 @@ import com.buddywindow.auth.entity.User;
 import com.buddywindow.auth.service.IAuthService;
 import com.buddywindow.auth.service.IUserService;
 import com.buddywindow.auth.util.JWTUtil;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -36,9 +41,13 @@ public class AuthResource implements IAuthResource{
 		return "Hi Welcome to Buddyindow Auth Service .....!";
 	}
 	
-	@GetMapping("/token")
-	public String getAuthToken() {
-		return authService.getAuthToken("Username", "Password");
+	@PostMapping("/login")
+	@Override
+	public AuthTokenDTO login(LoginRequestDTO loginRequestDTO) {
+		AuthToken authToken = authService.getAuthToken(loginRequestDTO.getUsername(), loginRequestDTO.getPassword());
+		AuthTokenDTO authTokenDTO = new AuthTokenDTO(authToken.getAccessToken(), authToken.getRefreshToken(), 
+				authToken.getTokenType(),authToken.getAccessTokenExpiryInSec(), authToken.getAccessTokenExpiryInSec(), authToken.getCreatedAt());
+		return authTokenDTO;
 	}
 	
 	@GetMapping("/user")

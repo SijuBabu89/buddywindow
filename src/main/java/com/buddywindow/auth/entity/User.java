@@ -21,10 +21,11 @@ public class User {
 	private String lastName;
 	private Contact contact;
 	private String username;
+	private String password;
 
 	
 	public User(String id, String title, String firstName, String middleName, String lastName,
-			Contact contact, String username) {
+			Contact contact, String username, String password) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -33,12 +34,21 @@ public class User {
 		this.lastName = lastName;
 		this.contact = contact;
 		this.username = username;
+		this.password = password;
 	}
 
 	public User() {
 		
 	}
 	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getMiddleName() {
 		return middleName;
 	}

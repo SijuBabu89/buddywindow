@@ -1,11 +1,14 @@
 package com.buddywindow.auth.service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.buddywindow.auth.constant.TokenType;
+import com.buddywindow.auth.domain.AuthToken;
 import com.buddywindow.auth.entity.TokenUserProfile;
 import com.buddywindow.auth.entity.User;
 import com.buddywindow.auth.util.JWTUtil;
@@ -23,12 +26,14 @@ public class AuthService implements IAuthService{
 	private TokenGeneratorService tokenGeneratorService;
 	
 	@Override
-	public String getAuthToken(String username, String password) {
-		User user = userService.getUserById(1l);
+	public AuthToken getAuthToken(String username, String password) {
+		User user = userService.getUserByUsernameAndPassword(username, password);
 		TokenUserProfile tokenUserProfile = toUserProfile(user);
 		String accessToken = tokenGeneratorService.generateAccessTokenFormUsername(username, tokenUserProfile);
 		String refreshToken = tokenGeneratorService.generateRefreshTokenFormUsername(username, tokenUserProfile);
-		return accessToken;
+		AuthToken authToken = new AuthToken(accessToken, refreshToken, TokenType.BEARER, tokenGeneratorService.getAccessTokenExpirationMs(), 
+				tokenGeneratorService.getRefershTokenExpirationMs(), LocalDateTime.now());
+		return authToken;
 	}
 	
     private static TokenUserProfile toUserProfile(User user) {
