@@ -3,6 +3,7 @@ package com.buddywindow.auth.service;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.buddywindow.auth.entity.TokenUserProfile;
@@ -15,16 +16,19 @@ import com.buddywindow.auth.util.JsonUtil;
 @Service
 public class AuthService implements IAuthService{
 
+
 	@Autowired
 	private IUserService userService;
 	@Autowired
-	private JWTUtil jwtUtil;
+	private TokenGeneratorService tokenGeneratorService;
 	
 	@Override
 	public String getAuthToken(String username, String password) {
 		User user = userService.getUserById(1l);
 		TokenUserProfile tokenUserProfile = toUserProfile(user);
-		return jwtUtil.generateJwtToken(user, tokenUserProfile);
+		String accessToken = tokenGeneratorService.generateAccessTokenFormUsername(username, tokenUserProfile);
+		String refreshToken = tokenGeneratorService.generateRefreshTokenFormUsername(username, tokenUserProfile);
+		return accessToken;
 	}
 	
     private static TokenUserProfile toUserProfile(User user) {
